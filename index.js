@@ -1,7 +1,7 @@
 const express=require('express');
 const cors = require('cors');
 require('dotenv').config();
-const { MongoClient, ServerApiVersion } = require('mongodb');
+const { MongoClient, ServerApiVersion, ObjectId } = require('mongodb');
 const app = express()
 const port = process.env.PORT || 5000
 
@@ -41,6 +41,28 @@ async function run() {
         const result = await touristSpotCollection.find({email:req.params.email}).toArray();
         res.send(result)
     })
+
+    app.get('/spotDetails/:id',async(req,res)=>{
+        console.log(req.params.id)
+        const result = await touristSpotCollection.findOne({_id: new ObjectId(req.params.id)})
+        res.send(result)
+    })
+    app.put('/updatePost/:id',async(req,res)=>{
+        console.log(req.params.id)
+    })
+    app.delete('/delete/:id',async(req,res)=>{
+        const result = await touristSpotCollection.deleteOne({
+            _id: new ObjectId(req.params.id)
+        })
+        console.log(result)
+        res.send(result)
+    })
+
+    // app.get('/updatePosts/:id',async(req,res)=>{
+    //     console.log(req.params.id)
+    //     const result = await touristSpotCollection.findOne({_id: new ObjectId(req.params.id)})
+    //     res.send(result)
+    // })
 
     // Send a ping to confirm a successful connection
     await client.db("admin").command({ ping: 1 });
