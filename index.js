@@ -42,6 +42,16 @@ async function run() {
         res.send(result)
     })
 
+
+    app.get('/addTouristSpot/', async (req, res) => {
+      try {
+          const result = await touristSpotCollection.find().toArray();
+          res.json(result);
+      } catch (error) {
+          console.error(error);
+          res.status(500).json({ error: 'Internal Server Error' });
+      }
+  });
     app.get('/spotDetails/:id',async(req,res)=>{
         console.log(req.params.id)
         const result = await touristSpotCollection.findOne({_id: new ObjectId(req.params.id)})
