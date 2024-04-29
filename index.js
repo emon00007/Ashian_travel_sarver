@@ -49,6 +49,23 @@ async function run() {
     })
     app.put('/updatePost/:id',async(req,res)=>{
         console.log(req.params.id)
+        const query ={_id:new ObjectId(req.params.id)}
+        const data= {
+            $set:{
+                photoUrl:req.body.photoUrl ,
+                countryName:req.body.countryName,
+                location:req.body.location ,
+                discription:req.body.discription,
+                seassonality:req.body.seassonality,
+                avarageCost:req.body.avarageCost,
+                travelTime:req.body.travelTime,
+                totalVisitorPerYear:req.body.totalVisitorPerYear
+
+            }
+        }
+        const result = await touristSpotCollection.updateOne(query,data)
+        console.log(result);
+        res.send(result)
     })
     app.delete('/delete/:id',async(req,res)=>{
         const result = await touristSpotCollection.deleteOne({
